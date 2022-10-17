@@ -1,0 +1,83 @@
+<form [formGroup]="attendanceForm">
+<label>Date</label>
+<mat-form-field appearance="outline">
+    <input matInput [(ngModel)]="filterDate" [matDatepicker]="pickerJD" [max]="maxDate" formControlName="filterDate" >
+    <mat-datepicker-toggle [for]="pickerJD" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #pickerJD></mat-datepicker>
+    <mat-error *ngIf="displayError('filterDate', 'required')">Date is required</mat-error>
+</mat-form-field>
+<br>
+<label>Company</label>&nbsp;&nbsp;
+<mat-form-field appearance="fill">
+    <mat-select [(value)]="CompanyId" formControlName="CompanyId" placeholder="Select Company">
+        <mat-option *ngFor="let cmp of cmpList" [value]="cmp.companyId">
+            {{cmp.companyName}}
+        </mat-option>
+    </mat-select>
+    <mat-error *ngIf="displayError('CompanyId', 'required')">Company Is required</mat-error>
+</mat-form-field>
+<br>
+<div>
+
+    <body>
+        <button mat-raised-button color="primary"(click)="loadattendance()">Load</button>&nbsp;&nbsp;
+        <button mat-raised-button [disabled]="savedisable" color="primary"(click)="SaveEmployee()">Save</button>
+    </body>
+</div>
+</form>
+<div fxLayout fxLayoutAlign="right">
+        <mat-form-field fxFlex="20%">
+          <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter">
+        </mat-form-field>
+      
+      
+    <table mat-table [dataSource]="dataSource" matSort >
+        <ng-container matColumnDef="employeeID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.employeeID}} </td>
+        </ng-container>
+        <ng-container matColumnDef="empName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.empName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="clockDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.clockDate | date:'dd-MM-yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeIn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header > TimeIn </th> 
+            <td mat-cell *matCellDef="let element">
+                <br>
+                <mat-form-field appearance="outline">
+                  <input matInput type="time" placeholder="Time In" [value]="element.timeIn" [(ngModel)]="element.timeIn">
+              </mat-form-field>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeOut">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TimeOut</th>
+            <td mat-cell *matCellDef="let element">
+                <br>
+                <mat-form-field appearance="outline">
+                  <input matInput type="time" placeholder="Time Out" [value]="element.timeOut" [(ngModel)]="element.timeOut">
+              </mat-form-field>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Remarks</th>
+            <td mat-cell *matCellDef="let element">
+                <br>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="" [value]="element.remarks" [(ngModel)]="element.remarks">
+              </mat-form-field>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[10, 20, 30, 40]">
+    </mat-paginator>
+</div>

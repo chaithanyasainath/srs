@@ -1,0 +1,16 @@
+.dashchart {
+    width: 100%;
+    height: 300px;
+}
+#BarChartIdWH{
+    height: 300px;
+    width:300px;
+}
+#BarChartIdSAL{
+    height: 400px;
+    width:450px;
+}
+#BarChartIdHS{
+    height: 500px;
+    width:550px;
+}

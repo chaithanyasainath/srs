@@ -1,0 +1,103 @@
+<h1 mat-dialog-title style="background-color:blue; color:white"> {{this.title}}</h1>
+<form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
+<th>
+    <tr>
+        <mat-form-field appearance="fill" style="display:none">
+            <label>Employee Key</label>
+            <input matInput [(ngModel)]="emp.employeeKey" formControlName="employeeKey" placeholder=" ">
+        </mat-form-field>
+        
+<label>EmployeeID</label>
+<mat-form-field appearance="outline">
+    <input matInput [(ngModel)]="emp.employeeId" formControlName="employeeId"  placeholder=" " >
+    <mat-error *ngIf="displayError('employeeId', 'required')">Employee Id is Required</mat-error>
+    <mat-error *ngIf="displayError('employeeId', 'maxlength')">Max Allowed 20 Characters</mat-error>
+</mat-form-field>
+    </tr>
+    <tr>
+<label>First Name</label>&nbsp;
+ <mat-form-field appearance="outline" >
+    <input matInput [(ngModel)]="emp.empFirstName" formControlName="empFirstName"  placeholder=" "  >
+    <mat-error *ngIf="displayError('empFirstName', 'required')">Employee FirstName Is Required</mat-error>
+    <mat-error *ngIf="displayError('empFirstName', 'maxlength')">Max Allowed 100 Characters</mat-error>
+</mat-form-field>
+</tr>
+<tr>
+<label>Gender</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<mat-form-field appearance="outline">
+    <mat-select [(ngModel)]="emp.empGender" formControlName="empGender" placeholder="Select Gender" >
+        <mat-option value="M">Male</mat-option>
+        <mat-option value="F">Female</mat-option>
+    </mat-select>
+   <!-- <mat-error *ngIf="displayError('empGender', 'required')">Gender selection is required</mat-error> -->
+</mat-form-field>
+</tr>
+<tr>
+<label>Designation</label>&nbsp;
+<mat-form-field appearance="outline" >
+    <mat-select [(ngModel)]="emp.empDesignationId" formControlName="empDesignationId" placeholder="Select Designation" >
+        <mat-option *ngFor="let des of desigList" [value]="des.designationId">
+            {{des.designationName}}
+        </mat-option>
+    </mat-select> 
+    <mat-error *ngIf="displayError('empDesignationId', 'required')">Designation Selection Is Required</mat-error>
+</mat-form-field>
+</tr>
+<tr>
+<label>Salary Rate</label>&nbsp;&nbsp;
+<mat-form-field appearance="outline">
+    <input matInput [(ngModel)]="emp.empHourlySalaryRate" type="number" formControlName="empHourlySalaryRate" placeholder=" ">
+    <mat-error *ngIf="displayError('empHourlySalaryRate', 'required')">Emp Salary Rate  Is Required</mat-error>
+</mat-form-field>
+</tr>
+</th>
+<th>
+<tr>
+
+<label>Company</label>&nbsp;&nbsp;
+<mat-form-field appearance="outline">
+    <mat-select [(ngModel)]="emp.empCompanyId" formControlName="empCompanyId" placeholder="Select Company" >
+        <mat-option *ngFor="let cmp of cmpList" [value]="cmp.companyId">
+            {{cmp.companyName}}
+        </mat-option>
+    </mat-select>
+    <mat-error *ngIf="displayError('empCompanyId', 'required')">Company Selection Is Required</mat-error>
+</mat-form-field>
+
+<tr>
+<label>Last Name</label>&nbsp;&nbsp;
+<mat-form-field appearance="outline">
+    <input matInput [(ngModel)]="emp.empLastName" placeholder=" " formControlName="empLastName" required >
+    <mat-error *ngIf="displayError('empLastName', 'required')">Employee LastName Is Required</mat-error>
+    <mat-error *ngIf="displayError('empLastName', 'maxlength')">Max Allowed 100 Characters</mat-error>
+</mat-form-field>
+</tr>
+<tr>
+    <label  for="JoiningDate">JoiningDate</label>&nbsp;
+<mat-form-field>
+    <input matInput [(ngModel)]="emp.empJoiningDate" formControlName="empJoiningDate"  placeholder="Choose a date" [matDatepicker]="pickerJD"  >
+    <mat-datepicker-toggle [for]="pickerJD" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #pickerJD></mat-datepicker>
+    <mat-error *ngIf="displayError('empJoiningDate', 'required')">Joining Date Is Required</mat-error>
+    
+</mat-form-field>
+</tr>
+<br>
+<tr>
+&nbsp;&nbsp; <label  for="ResignationDate">ResignationDate</label>&nbsp;
+<mat-form-field >
+    <input matInput  [(ngModel)]="emp.empResignationDate" [disabled]="this.isResignationDateEditable" formControlName="empResignationDate" [matDatepicker]="pickerERD"   placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="pickerERD"></mat-datepicker-toggle>
+    <mat-datepicker #pickerERD></mat-datepicker> 
+    
+  </mat-form-field>
+</tr>
+</th>
+</form>
+<div mat-dialog-actions>
+    <body>
+    <button   mat-raised-button color="primary" (click)="saveEmployee()" *ngIf="this.HideSaveButton">Save</button>
+    <button   mat-raised-button color="primary" (click)="updateEmployee()" *ngIf="this.HideUpdateButton">Update</button>
+    <button  mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+</body>
+</div>
